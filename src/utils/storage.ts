@@ -1,4 +1,3 @@
-
 import { Feedback, FeedbackStatus, User } from '@/types/feedback';
 
 // Local storage keys
@@ -107,17 +106,14 @@ export const getFeedbackById = (id: string): Feedback | undefined => {
   return feedbacks.find(feedback => feedback.id === id);
 };
 
-export const addFeedback = (feedback: Omit<Feedback, 'id' | 'createdAt' | 'upvotes'>): Feedback => {
+export const addFeedback = (feedback: Omit<Feedback, 'id' | 'createdAt'>): Feedback => {
   const feedbacks = getAllFeedbacks();
-  const currentUser = getCurrentUser();
   
   const newFeedback: Feedback = {
     ...feedback,
     id: Date.now().toString(),
     createdAt: new Date().toISOString(),
     upvotes: 0,
-    createdBy: currentUser?.name || 'Anonymous',
-    status: 'pending',
   };
   
   localStorage.setItem(FEEDBACKS_KEY, JSON.stringify([newFeedback, ...feedbacks]));

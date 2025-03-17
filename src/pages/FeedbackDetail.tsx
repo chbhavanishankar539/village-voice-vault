@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -278,7 +277,8 @@ const FeedbackDetail = () => {
                             className="justify-start"
                             onClick={() => {
                               updateStatus('pending');
-                              document.querySelector('[data-shadcnui-alert-dialog-close]')?.click();
+                              const closeButton = document.querySelector('[data-shadcnui-alert-dialog-close]') as HTMLElement | null;
+                              if (closeButton) closeButton.click();
                             }}
                           >
                             <StatusBadge status="pending" className="mr-2" />
@@ -289,7 +289,8 @@ const FeedbackDetail = () => {
                             className="justify-start"
                             onClick={() => {
                               updateStatus('in-review');
-                              document.querySelector('[data-shadcnui-alert-dialog-close]')?.click();
+                              const closeButton = document.querySelector('[data-shadcnui-alert-dialog-close]') as HTMLElement | null;
+                              if (closeButton) closeButton.click();
                             }}
                           >
                             <StatusBadge status="in-review" className="mr-2" />
@@ -300,7 +301,8 @@ const FeedbackDetail = () => {
                             className="justify-start"
                             onClick={() => {
                               updateStatus('in-progress');
-                              document.querySelector('[data-shadcnui-alert-dialog-close]')?.click();
+                              const closeButton = document.querySelector('[data-shadcnui-alert-dialog-close]') as HTMLElement | null;
+                              if (closeButton) closeButton.click();
                             }}
                           >
                             <StatusBadge status="in-progress" className="mr-2" />
@@ -311,7 +313,8 @@ const FeedbackDetail = () => {
                             className="justify-start"
                             onClick={() => {
                               updateStatus('resolved');
-                              document.querySelector('[data-shadcnui-alert-dialog-close]')?.click();
+                              const closeButton = document.querySelector('[data-shadcnui-alert-dialog-close]') as HTMLElement | null;
+                              if (closeButton) closeButton.click();
                             }}
                           >
                             <StatusBadge status="resolved" className="mr-2" />
@@ -322,7 +325,8 @@ const FeedbackDetail = () => {
                             className="justify-start"
                             onClick={() => {
                               updateStatus('rejected');
-                              document.querySelector('[data-shadcnui-alert-dialog-close]')?.click();
+                              const closeButton = document.querySelector('[data-shadcnui-alert-dialog-close]') as HTMLElement | null;
+                              if (closeButton) closeButton.click();
                             }}
                           >
                             <StatusBadge status="rejected" className="mr-2" />
@@ -400,46 +404,6 @@ const FeedbackDetail = () => {
                 </CardContent>
               </Card>
             )}
-            
-            {/* Timeline Section 
-            <Card>
-              <CardHeader>
-                <h2 className="text-lg font-medium">Timeline</h2>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex gap-3">
-                    <div className="relative flex flex-col items-center">
-                      <div className="h-8 w-0.5 bg-border" />
-                      <div className="rounded-full h-2.5 w-2.5 bg-primary z-10" />
-                      <div className="h-full w-0.5 bg-border" />
-                    </div>
-                    <div className="pb-8">
-                      <p className="text-sm font-medium">Feedback Submitted</p>
-                      <p className="text-xs text-muted-foreground">
-                        {format(new Date(feedback.createdAt), 'PPpp')}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {feedback.officialResponse && (
-                    <div className="flex gap-3">
-                      <div className="relative flex flex-col items-center">
-                        <div className="h-8 w-0.5 bg-border" />
-                        <div className="rounded-full h-2.5 w-2.5 bg-primary z-10" />
-                        <div className="h-full w-0.5 bg-border" />
-                      </div>
-                      <div className="pb-8">
-                        <p className="text-sm font-medium">Official Response Added</p>
-                        <p className="text-xs text-muted-foreground">
-                          {format(new Date(feedback.officialResponse.respondedAt), 'PPpp')}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card> */}
           </motion.div>
         </div>
       </main>

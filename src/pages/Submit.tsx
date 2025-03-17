@@ -9,6 +9,7 @@ import Header from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Form,
   FormControl,
@@ -16,6 +17,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form';
 import {
   Select,
@@ -43,6 +45,12 @@ const formSchema = z.object({
     message: "Description must not exceed 500 characters.",
   }),
   location: z.string().optional(),
+  submitterName: z.string().min(2, {
+    message: "Name must be at least 2 characters."
+  }).max(50, {
+    message: "Name must not exceed 50 characters."
+  }).optional(),
+  isAnonymous: z.boolean().default(false),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -59,20 +67,29 @@ const Submit = () => {
       category: undefined,
       description: "",
       location: "",
+      submitterName: "",
+      isAnonymous: false,
     },
   });
+
+  const isAnonymous = form.watch("isAnonymous");
 
   const onSubmit = (values: FormValues) => {
     setIsSubmitting(true);
     try {
+      // Determine the creator name based on anonymous choice
+      let createdBy = "Anonymous";
+      if (!values.isAnonymous && values.submitterName && values.submitterName.trim()) {
+        createdBy = values.submitterName.trim();
+      }
+
       const newFeedback = addFeedback({
         title: values.title,
         category: values.category as FeedbackCategory,
         description: values.description,
         location: values.location,
         status: 'pending',
-        upvotes: 0,
-        createdBy: '',
+        createdBy: createdBy,
       });
 
       toast({
@@ -114,6 +131,49 @@ const Submit = () => {
           <div className="glass-panel p-6 rounded-xl">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                {/* Anonymous checkbox */}
+                <FormField
+                  control={form.control}
+                  name="isAnonymous"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 mb-2">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>Submit anonymously</FormLabel>
+                        <FormDescription>
+                          Check this if you prefer not to share your name
+                        </FormDescription>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+
+                {/* Submitter name field */}
+                {!isAnonymous && (
+                  <FormField
+                    control={form.control}
+                    name="submitterName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Your Name</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Enter your name" 
+                            {...field} 
+                            className="bg-white/50 dark:bg-black/10"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
+
                 <FormField
                   control={form.control}
                   name="title"
