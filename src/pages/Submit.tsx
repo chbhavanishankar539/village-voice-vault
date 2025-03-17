@@ -90,6 +90,7 @@ const Submit = () => {
         location: values.location,
         status: 'pending',
         createdBy: createdBy,
+        upvotes: 0  // Adding the missing required upvotes property
       });
 
       toast({
@@ -111,7 +112,7 @@ const Submit = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-secondary/30">
       <Header />
 
       <main className="flex-1 pt-24">
@@ -122,13 +123,13 @@ const Submit = () => {
           transition={{ duration: 0.4 }}
         >
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-semibold mb-2">Submit Feedback</h1>
+            <h1 className="text-3xl font-semibold mb-2 gradient-heading">Submit Feedback</h1>
             <p className="text-muted-foreground">
               Share your ideas, concerns, or report issues in your community
             </p>
           </div>
 
-          <div className="glass-panel p-6 rounded-xl">
+          <div className="glass-panel p-6 rounded-xl shadow-xl">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 {/* Anonymous checkbox */}
@@ -260,7 +261,7 @@ const Submit = () => {
                 <div className="pt-2">
                   <Button 
                     type="submit" 
-                    className="w-full" 
+                    className="w-full button-glow" 
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Submitting..." : "Submit Feedback"}

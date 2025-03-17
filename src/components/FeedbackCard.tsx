@@ -57,16 +57,18 @@ const FeedbackCard = ({ feedback, refreshData }: FeedbackCardProps) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
+      whileHover={{ y: -5 }}
+      className="h-full"
     >
-      <Link to={`/feedback/${feedback.id}`}>
+      <Link to={`/feedback/${feedback.id}`} className="h-full block">
         <Card className={cn(
-          "overflow-hidden transition-all duration-300 hover:shadow-md",
-          "hover:translate-y-[-2px] cursor-pointer"
+          "h-full overflow-hidden transition-all duration-300 hover:shadow-lg",
+          "hover:border-primary/40 card-hover"
         )}>
           <CardHeader className="pb-2 flex flex-row justify-between items-start">
             <div className="space-y-2">
               <div className="flex flex-wrap gap-2">
-                <span className={`pill ${categoryColor}`}>
+                <span className={`pill ${categoryColor} animate-in`}>
                   {categoryLabel}
                 </span>
                 <StatusBadge status={feedback.status} />
@@ -94,7 +96,7 @@ const FeedbackCard = ({ feedback, refreshData }: FeedbackCardProps) => {
                 variant="ghost" 
                 size="sm" 
                 className={cn(
-                  "h-7 px-2 gap-1 font-normal", 
+                  "h-7 px-2 gap-1 font-normal hover:bg-primary/10 hover:text-primary", 
                   isUpvoting && "animate-pulse-subtle"
                 )}
                 onClick={handleUpvote}
@@ -104,10 +106,19 @@ const FeedbackCard = ({ feedback, refreshData }: FeedbackCardProps) => {
               </Button>
               
               {hasResponse && (
-                <div className="flex items-center gap-1 text-xs">
+                <motion.div 
+                  className="flex items-center gap-1 text-xs"
+                  initial={{ scale: 0.9, opacity: 0.5 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    repeatType: "reverse", 
+                    duration: 1.5 
+                  }}
+                >
                   <MessageSquare className="h-3.5 w-3.5 text-primary" />
                   <span>Official Response</span>
-                </div>
+                </motion.div>
               )}
             </div>
             
